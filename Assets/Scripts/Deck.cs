@@ -1,10 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using System.Linq;
-public class Deck : ICards
+public class Deck : ICards  //A deck means a pile, used for the draw pile and discard pile
 {
-    public  void Initialise()
+    private System.Random rng;
+
+    public Deck()
+    {
+
+        rng = new System.Random();
+        mCards = new List<Card>();
+    }
+
+    public Deck(List<Card> cloneList)  
+    {
+        mCards = cloneList;
+    }
+    public  void Initialise()    //The function is used for draw deck, to instantiate all the cards needed
     {
         
         List<Card> allCards = new List<Card>();
@@ -15,91 +29,61 @@ public class Deck : ICards
         {
             if (x < 3)
             {
-                for (int y = 0; y < 9; y++)
-                {
-                    allCards.Add(new Card((Suit)x, y,(SetType)y));
-                    allCards.Add(new Card((Suit)x, y, (SetType)y));
-                    allCards.Add(new Card((Suit)x, y, (SetType)y));
-                    allCards.Add(new Card((Suit)x, y, (SetType)y));
-                }
+                
+            allCards.Add(new Card((Suit)x, 1,(MeldType)x));
+            allCards.Add(new Card((Suit)x, 1, (MeldType)x));
+            allCards.Add(new Card((Suit)x, 1, (MeldType)x));
+            allCards.Add(new Card((Suit)x, 1, (MeldType)x));
+                
             }
             else
             {
-                allCards.Add(new Card((Suit)x, 1,(SetType)(x-3+9)));
-                allCards.Add(new Card((Suit)x, 1, (SetType)(x - 3 + 9)));
-                allCards.Add(new Card((Suit)x, 1, (SetType)(x - 3 + 9)));
-                allCards.Add(new Card((Suit)x, 1, (SetType)(x - 3 + 9)));
+                for (int y = 0; y < 9; y++)
+                {
+                    allCards.Add(new Card((Suit)x, y+1, (MeldType)(y+3)));
+                    allCards.Add(new Card((Suit)x, y+1, (MeldType)(y + 3)));
+                    allCards.Add(new Card((Suit)x, y+1, (MeldType)(y + 3)));
+                    allCards.Add(new Card((Suit)x, y+1, (MeldType)(y + 3)));
+                }
             }
         }
 
-        mCards = allCards;//temporary
-        /*Card string_1 = new Card(Suit.String, 1);
-        Card string_2 = new Card(Suit.String, 2);
-        Card string_3 = new Card(Suit.String, 3);
-        Card string_4 = new Card(Suit.String, 4);
-        Card string_5 = new Card(Suit.String, 5);
-        Card string_6 = new Card(Suit.String, 6);
-        Card string_7 = new Card(Suit.String, 7);
-        Card string_8 = new Card(Suit.String, 8);
-        Card string_9 = new Card(Suit.String, 9);
-
-        Card Coin_1 = new Card(Suit.Coin, 1);
-        Card Coin_2 = new Card(Suit.Coin, 1);
-        Card Coin_3 = new Card(Suit.Coin, 1);
-        Card Coin_4 = new Card(Suit.Coin, 1);
-        Card Coin_5 = new Card(Suit.Coin, 1);
-        Card Coin_6 = new Card(Suit.Coin, 1);
-        Card Coin_7 = new Card(Suit.Coin, 1);
-        Card Coin_8 = new Card(Suit.Coin, 1);
-        Card Coin_9 = new Card(Suit.Coin, 1);*/
-
-
-        /*Card string_1_1 = new Card(Suit.String, 1);
-        Card string_1_2 = new Card(Suit.String, 1);
-        Card string_1_3 = new Card(Suit.String, 1);
-        Card string_1_4 = new Card(Suit.String, 1);
-
-        Card string_2_1 = new Card(Suit.String, 2);
-        Card string_2_2 = new Card(Suit.String, 2);
-        Card string_2_3 = new Card(Suit.String, 2);
-        Card string_2_4 = new Card(Suit.String, 2);
-
-        Card string_3_1 = new Card(Suit.String, 3);
-        Card string_3_2 = new Card(Suit.String, 3);
-        Card string_3_3 = new Card(Suit.String, 3);
-        Card string_3_4 = new Card(Suit.String, 3);
-
-        Card string_4_1 = new Card(Suit.String, 4);
-        Card string_4_2 = new Card(Suit.String, 4);
-        Card string_4_3 = new Card(Suit.String, 4);
-        Card string_4_4 = new Card(Suit.String, 4);
-
-        Card string_5_1 = new Card(Suit.String, 5);
-        Card string_5_2 = new Card(Suit.String, 5);
-        Card string_5_3 = new Card(Suit.String, 5);
-        Card string_5_4 = new Card(Suit.String, 5);
-
-        Card string_6_1 = new Card(Suit.String, 6);*/
-
+        mCards = allCards;
 
         
     }
 
-    public virtual Card Pop()
+    public virtual Card Pop()  //get and remove the top card
     {
         Card temp = mCards.Last();
         mCards.Remove(mCards.Last());
+        
         return temp;
     }
-    public Card GetTop()
+    public Card GetTop()   //peek but not remove
     {
-        return mCards.Last();
+        if (mCards.Count > 0)
+        {
+            return mCards.Last();
+        }
+        return null;
     }
 
-    public List<Card> GetCards()
+    
+    
+    public void Shuffle()   //To randomize the deck
     {
-        return mCards;
+        int n = mCards.Count;
+        while (n > 1)
+        {
+            n--;
+            int k = rng.Next(n + 1);
+            Card value = mCards[k];
+            mCards[k] = mCards[n];
+            mCards[n] = value;
+        }
     }
+
 
 
 }

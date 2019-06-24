@@ -62,20 +62,24 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Abandon\DealerState.cs" />
-    <Compile Include="Assets\Abandon\TurnState.cs" />
-    <Compile Include="Assets\Scripts\AI.cs" />
+    <Compile Include="Assets\AbandonedScripts\DealerState.cs" />
+    <Compile Include="Assets\AbandonedScripts\DiscardState.cs" />
+    <Compile Include="Assets\AbandonedScripts\DrawState.cs" />
+    <Compile Include="Assets\AbandonedScripts\DumbAI.cs" />
+    <Compile Include="Assets\AbandonedScripts\IStateMachine.cs" />
+    <Compile Include="Assets\AbandonedScripts\Test.cs" />
     <Compile Include="Assets\Scripts\Card.cs" />
-    <Compile Include="Assets\Scripts\CherkiStateMachine.cs" />
+    <Compile Include="Assets\Scripts\CardsInHand.cs" />
     <Compile Include="Assets\Scripts\Deck.cs" />
-    <Compile Include="Assets\Scripts\DiscardState.cs" />
-    <Compile Include="Assets\Scripts\DrawState.cs" />
-    <Compile Include="Assets\Scripts\HeldCards.cs" />
+    <Compile Include="Assets\Scripts\FSM\CherkiMachineState.cs" />
+    <Compile Include="Assets\Scripts\FSM\CherkiStateMachine.cs" />
+    <Compile Include="Assets\Scripts\FSM\IState.cs" />
+    <Compile Include="Assets\Scripts\FSM\TurnState.cs" />
     <Compile Include="Assets\Scripts\ICards.cs" />
-    <Compile Include="Assets\Scripts\IState.cs" />
-    <Compile Include="Assets\Scripts\IStateMachine.cs" />
     <Compile Include="Assets\Scripts\Main.cs" />
-    <Compile Include="Assets\Scripts\Test.cs" />
+    <Compile Include="Assets\Scripts\MCTS\MCTSAI.cs" />
+    <Compile Include="Assets\Scripts\MCTS\MCTSState.cs" />
+    <Compile Include="Assets\Scripts\MCTS\TreeNode.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>G:/Poly5/Game AI/CherkiGame/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>

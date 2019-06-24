@@ -1,27 +1,44 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Card
 {
-    int value=0;
-    Suit suit;
-    SetType setType;
+    int value = 0;
+    Suit suit;               //Suit can be string, coin, white flower or ect
+    MeldType meldType;       //Regardless of its suit, as long as the cards can form a meld, they belong to the same meld type
 
-    public Card(Suit mSuit, int mValue,SetType mSetType)
+    public Card(Suit mSuit, int mValue, MeldType mMeldType)
     {
         this.value = mValue;
         this.suit = mSuit;
-        this.setType = mSetType;
+        this.meldType = mMeldType;
+       
     }
 
-    public int Value{get{ return value; }}
+
+
+    public int Value { get { return value; } }
     public Suit Suit { get { return suit; } }
-    public SetType SetType { get { return setType; } }
+    public MeldType MeldType { get { return meldType; } }
+    //public int ID{get{ return cardID; } }
+
+    public Card Clone()          //A deepClone function, not used
+    {
+        Card cloneCard = (Card)this.MemberwiseClone();
+        cloneCard.value = this.value;
+        cloneCard.suit = this.suit;
+        cloneCard.meldType = this.meldType;
+        return cloneCard;
+    }
 }
 
-public enum SetType
+public enum MeldType  //The way they are arranged is based on their value
 {
+    RedFlower,
+    WhiteFlower,
+    OldThousand,
     One,
     Two,
     Three,
@@ -31,18 +48,18 @@ public enum SetType
     Seven,
     Eight,
     Nine,
-    RedFlower,
-    WhiteFlower,
-    OldThousand,
+    Count
+    
 }
 
 public enum Suit
 {
-    Coin,
-    String,
-    Myriad,
     RedFlower,
     WhiteFlower,
     OldThousand,
-    Empty
+    Coin,
+    String,
+    Myriad,
+    
+    
 }
