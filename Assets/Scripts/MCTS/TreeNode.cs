@@ -14,32 +14,38 @@ public class TreeNode             //Orignial code= https://github.com/aldidoanta
     public double uctValue;
 
     public MCTSState state;
-
+    
     public TreeNode(MCTSState state)
     {
         children = new List<TreeNode>();
         nVisits = 0;
         totValue = 0;
-
         this.state = state;
+        
+
     }
 
-   
+
 
     public void iterateMCTS()
     {
         LinkedList<TreeNode> visited = new LinkedList<TreeNode>();
         TreeNode cur = this;
         visited.AddLast(this);
-        while (!cur.isLeaf()) //1. SELECTION
+        /*while (!cur.isLeaf()) //1. SELECTION    This shall never be called
         {
             cur = cur.select();
 
             visited.AddLast(cur);
-        }
+        }*/
         if (cur.state.stateResult == MCTSState.Result.None)
         {
-            cur.expand(); //2. EXPANSION
+            if (cur.children.Count == 0)
+            {
+                cur.expand();
+            } //2. EXPANSION
+            //cur.expand();
+
             TreeNode newNode = cur.select();
             visited.AddLast(newNode);
             double value = newNode.simulate(); //3. SIMULATION
@@ -228,7 +234,7 @@ public class TreeNode             //Orignial code= https://github.com/aldidoanta
     }
 
     public double simulate()   //It simulates all the way to the end of the game, from currentNode
-    {                        //Based on the result of the simulation(Win/lose), it return different sim value, used to judge whether its a good node or not
+    {                        //Based on the result of the simulation(Win/lose), it returns different sim value, used to judge whether its a good node or not
         MCTSState simState = new MCTSState(state.currentTurn, state.drawDeck, state.discardDeck, state.humanCards, state.AICards, state.hasDrawn, state.lastDiscard, state.lastDrawDeck);
         simState.stateResult = state.stateResult;
 

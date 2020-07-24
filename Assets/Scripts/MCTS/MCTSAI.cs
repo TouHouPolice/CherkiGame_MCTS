@@ -8,9 +8,9 @@ public class MCTSAI : MonoBehaviour        //Orignial code= https://github.com/a
     public int iterationNumber;                   //The number decides how many times the AI will iterate
     [HideInInspector] public TreeNode treeNode;
 
-   
-  
-   
+
+    TreeNode tempTreeNode;
+
     bool flag = false;
 
     void Start()
@@ -18,18 +18,20 @@ public class MCTSAI : MonoBehaviour        //Orignial code= https://github.com/a
 
 
         initAI();        //This line of code to initiate the TreeNode is practically useless. Later it always generate a new node when because there is no children
-      
+
+        
     }
 
 
     void Update()
     {
+        
         if (Main.isInitialised)
         {
             
             if (Main.Instance.mMachine.CurrentState.MyTurn == myTurn && !Main.isComplete)
             {
-            
+                
                 MCTSIterate();         //Get state that matches the current game state, then expand and simulate
                 treeNode = treeNode.select();  //Based on calculation, select the best node to proceed
                 
@@ -58,9 +60,9 @@ public class MCTSAI : MonoBehaviour        //Orignial code= https://github.com/a
                     
                    
                     Main.Instance.lastDiscardCard = treeNode.state.lastDiscard; //Update game/board information
-                    
 
-                    MCTSIterate();  //Now the children number has became zero, we need to iterate to get children
+
+                    treeNode.expand();  //Now the children number has became zero, we need to iterate to get children
                     
                 }
 
@@ -76,19 +78,21 @@ public class MCTSAI : MonoBehaviour        //Orignial code= https://github.com/a
         Debug.Log("Init AI");
         treeNode=new TreeNode(new MCTSState(Main.Instance.mMachine.CurrentState.MyTurn, Main.Instance.drawDeck, Main.Instance.discardDeck, Main.Instance.playerCardsInHand, Main.Instance.computerCardsInHand, Main.Instance.mMachine.CurrentState.hasDrawn, null,CherkiMachineState.SourceDeck.None));
         
+        
     }
 
     public void MatchAndIterate()
     {
 
         FindMatchedNode();
-       
-        MCTSIterate();
+
+        treeNode.expand();
         
     }
 
     public void MCTSIterate()
     {
+        
         for (int i = 0; i < iterationNumber; i++)
         {
             //Debug.Log("Iteration: "+i);
